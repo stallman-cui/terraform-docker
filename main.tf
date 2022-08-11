@@ -1,24 +1,24 @@
 terraform {
   required_providers {
-    docker = {
-        source = "kreuzwerker/docker"
-        version = "~> 2.13.0"
+    random = {
+        source = "hashicorp/random"
+        version = "3.0.1"
     }
   }
+
+  required_version = ">= 1.1.0"
 }
 
-provider "docker" {}
-
-resource "docker_image" "nginx" {
-  name = var.container_name
-  keep_locally = true
+variable "name_length" {
+    description = "The number of words in the pet name"
+    default = "3"
 }
 
-resource "docker_container" "nginx" {
-  image = docker_image.nginx.latest
-  name = "protal"
-  ports {
-    internal = 80
-    external = 8080
-  }
+resource "random_pet" "pet_name" {
+  length = var.name_length
+  separator = "-"
+}
+
+output "pet_name" {
+  value = random_pet.pet_name.id
 }
