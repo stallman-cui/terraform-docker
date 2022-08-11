@@ -14,6 +14,18 @@ variable "name_length" {
     default = "3"
 }
 
+resource "random_password" "password" {
+  length           = 16
+  special          = true
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+}
+
+resource "random_string" "random" {
+  length           = 16
+  special          = true
+  override_special = "/@£$"
+}
+
 resource "random_pet" "pet_name" {
   length = var.name_length
   separator = "-"
